@@ -1,13 +1,846 @@
+@import 'normalize.css';
+
+:root {
+  --main-bg-color: #202329;
+  --dark-blue-color: #2D69EB;
+  --antique-white: antiquewhite;
+
+  --text-color: white;
+  --text-opacity-50: rgba(255, 255, 255, 0.5);
+
+  --header-bg: #20242A;
+  --card-bg: #30363E;
+  --dialog-bg: #21262C;
+  --deposit-bg: #30363E;
+
+  --button-primary-bg: #4C84FF;
+  --button-add-bg: #2D69EB;
+  --button-app-bg: #F9484B;
+  --button-app-hover-bg: #d14b43;
+  --button-app-active-bg: #b6443b;
+  --button-app-disabled-bg: #722f2a;
+
+  --border-color: #C68CFF;
+  --shadow-color: rgba(0, 0, 0, 0.368);
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-dialog: rgba(0, 0, 0, 0.05);
+
+  --status-processing: #C69516;
+  --status-active: #00BA61;
+  --status-performed: #2658D7;
+  --status-popular: #2D69EB;
+  --status-trusted: #FC3D40;
+
+  --promo-code-bg: #30363E;
+  --promo-code-text: white;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Avenir', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--antique-white);
+  background: var(--main-bg-color);
+  position: relative;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
+}
+
+#root{
+  height: inherit;
+  position: relative;
+}
+
+.app-container {
+  max-width: 1122px;
+  min-width: 320px;
+  padding: 20px;
+  margin: 0 auto;
+  height: inherit;
+  box-sizing: border-box;
+}
+
+.app-header{
+  @media (max-width: 320px){
+    max-height: 64px;
+  }
+
+  max-height: 84px;
+  height: 100%;
+  box-shadow: 0 2px 7px 0 var(--shadow-color);
+  background: var(--header-bg);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: inherit;
+  gap: 16px;
+}
+
+.left-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.right-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.img-avatar{
+  height: 52px;
+  width: 52px;
+  border-radius: 52px;
+  border: 2px solid var(--border-color);
+  background-image: url('components/img/base_yone.jpeg');
+  background-size: 350px;
+  background-position-x: -180px;
+  background-repeat: no-repeat;
+}
+
+.button-container{
+  display: flex;
+  flex-direction: row;
+
+  & > button:hover {
+    cursor: pointer;
+  }
+}
+
+.amount-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: var(--button-primary-bg);
+  padding: 8px 8px 8px 12px;
+  border: none;
+  color: var(--text-color);
+
+  line-height: 19px;
+  font-size: 14px;
+  font-weight: 800;
+
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.amount-button__amount{
+  white-space: nowrap;
+}
+
+.amount-button__discount{
+  border-radius: 3px;
+  padding: 3px;
+
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 10px;
+
+  background: var(--dark-blue-color);
+}
+
+.add-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--button-add-bg);
+  padding: 8px 12px;
+  line-height: 19px;
+
+  border: none;
+  color: var(--text-color);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.app-menu{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: var(--header-bg);
+  box-shadow: 2px 2px 7px 0 var(--shadow-color);
+  height: 100%;
+  z-index: 999;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.header-menu{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list-menu{
+  color: var(--text-color);
+  list-style-type: none;
+  padding: 10px 0 16px 0;
+
+  & > li{
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: 800;
+    padding: 6px 0;
+  }
+}
+
+.block-deposit{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 16px;
+}
+
+.block-title{
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+  padding: 16px 0;
+  color: var(--text-color);
+}
+
+.block-subTitle{
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+.block-bodyTitle{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding-bottom: 20px;
+  color: var(--text-color);
+}
+
+.card{
+  background: var(--card-bg);
+  width: 172px;
+  height: 105px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+
+  @media (max-width: 320px){
+    width: 130px;
+    height: 79px;
+    gap: 2px;
+  }
+}
+
+.skeleton{
+  display: inline-block;
+  background: linear-gradient(90deg, var(--card-bg) 25%, #424850 50%, var(--card-bg) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.text-skeleton {
+  height: 24px;
+  width: 100%;
+  border-radius: 2px;
+
+  @media (max-width: 320px){
+    height: 28px;
+  }
+}
+
+.logo-skeleton{
+  height: 48px;
+  width: 100%;
+  max-width: 48px;
+  border-radius: 10px;
+}
+
+.card-logo {
+  height: 38%;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > svg {
+    height:100%;
+    width:auto;
+  }
+}
+
+.card-title{
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 19px;
+
+  @media (max-width: 320px){
+    font-size: 10px;
+    line-height: 13px;
+  }
+}
+
+.card-commission{
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  opacity: 50%;
+
+  @media (max-width: 320px){
+    font-size: 8px;
+    line-height: 10px;
+  }
+}
+
+.card-state{
+  padding: 3.5px 18.5px;
+  color: var(--text-color);
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 10px;
+  position: absolute;
+  top: -8.5px;
+  border-radius: 2px;
+}
+
+.card-state_popular{
+  background: var(--status-popular);
+}
+
+.card-state_trusted{
+  background: var(--status-trusted);
+}
+
+.card-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.promo-form {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+}
+
+.promo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+  & > label {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 21px;
+    color: var(--text-color);
+    opacity: 50%;
+
+    @media (max-width: 320px){
+      font-size: 10px;
+    }
+  }
+
+  & > div {
+    position: relative;
+
+    & > input {
+      all: unset;
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--card-bg);
+      padding: 10.5px 56px 10.5px 16px;
+      color: var(--text-color);
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 21px;
+    }
+
+    & > svg {
+      position: absolute;
+      top: 9px;
+      right: 16px;
+    }
+  }
+}
+
+.pin-logo{
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 24px;
+  color: #FF1F23; /* Можна винести у змінну, якщо потрібно */
+}
+
+.pin-logo_transaction {
+  font-size: 24px;
+}
+
+.app-button {
+  background: var(--button-app-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: fit-content;
+
+  @media (max-width: 320px){
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: var(--button-app-hover-bg);
+  }
+
+  &:active {
+    background-color: var(--button-app-active-bg);
+  }
+
+  &:disabled {
+    background-color: var(--button-app-disabled-bg);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.app-tableContainer{
+  width: 100%;
+  overflow: auto;
+  max-height: 450px;
+  min-width: 700px;
+
+  @media (max-width: 320px){
+    min-width: 280px;
+    height: 450px;
+  }
+}
+
+.app-table {
+  display: table;
+  width: inherit;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.app-tableBody {
+  display: table-row-group;
+}
+
+.app-tableRow {
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0;
+}
+
+.add-tableRow_underline {
+  border-bottom: 1px solid #1C1A1A; /* Можна винести у змінну, якщо потрібно */
+}
+
+.app-table__cell {
+  display: table-cell;
+  vertical-align: inherit;
+  text-align: inherit;
+  padding: 12px 16px;
+
+  &:first-of-type {
+    padding-left: 0;
+  }
+
+  &:last-of-type{
+    padding-right: 0;
+  }
+
+  @media (max-width: 320px){
+    &:first-of-type {
+      padding-left: 12px;
+    }
+
+    &:last-of-type{
+      padding-right: 12px;
+    }
+  }
+}
+
+.app-table__cellHead {
+  display: table-cell;
+  vertical-align: inherit;
+  text-align: inherit;
+  padding: 12px 16px;
+}
+
+.app-table__cellLogo {
+  height: 48px;
+  width: 48px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+
+  & > svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.app-table__cellTitle {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21px;
+  color: var(--text-color);
+  padding-bottom: 4px;
+
+  @media (max-width: 320px){
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.app-table__cellSubTitle {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+  opacity: 50%;
+  color: var(--text-color);
+
+  @media (max-width: 320px){
+    font-size: 10px;
+    line-height: 13px;
+  }
+}
+
+.button-showMore {
+  margin: 20px auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-sort{
+  width: 42px;
+  height: 42px;
+  background: var(--card-bg);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 320px){
+    width: 24px;
+    height: 24px;
+
+    & > svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.app-sort_desc {
+  transform: rotate(180deg);
+}
+
+.transactions-sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.transactions-status {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21px;
+  color: #C69516; /* Можна замінити на змінну */
+}
+
+.transactions-status_processing {
+  color: var(--status-processing);
+}
+
+.transactions-status_active {
+  color: var(--status-active);
+}
+
+.transactions-status_performed {
+  color: var(--status-performed);
+}
+
+.table-transactionsCell_mobile {
+  background: var(--card-bg);
+
+  &:first-of-type {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+  }
+
+  &:last-of-type {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  & > svg {
+    width: 50px;
+    height: auto;
+  }
+}
+
+.table-transactionsRow_mobile-divider{
+  height: 12px;
+}
+
+.app-dialogContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8); /* Можна винести у змінну, якщо потрібно */
+  backdrop-filter: blur(7px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-dialog {
+  height: auto;
+  max-width: 711px;
+  min-width: 320px;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 9px;
+  background: var(--dialog-bg);
+  box-shadow: 4px 4px 5px 0 var(--shadow-dialog);
+  padding: 24px;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.app-text_primary {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21.86px;
+  text-align: left;
+  color: var(--text-color);
+}
+
+.app-text_large {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 32.78px;
+  color: var(--text-color);
+}
+
+.app-text_medium {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24.59px;
+  color: var(--text-color);
+}
+
+.app-text_small {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 19.12px;
+  color: var(--text-color);
+}
+
+.app-text_tiny {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.39px;
+  color: var(--text-color);
+}
+
+.depositContainer-dialog {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+}
+
+.depositHeader-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  & > :last-of-type{
+    cursor: pointer;
+  }
+}
+
+.depositBalance-dialog {
+  background: var(--dark-blue-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 20px;
+  margin: 0 -24px;
+}
+
+.depositAmount-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: 320px){
+    & .app-text_medium {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 21.86px;
+    }
+  }
+
+  & > div {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    flex-direction: column;
+
+    & > div {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+
+      @media (max-width: 320px){
+        gap: 12px;
+      }
+
+      @media (max-width: 320px){
+        & .app-text_primary {
+          font-size: 12px;
+          font-weight: 800;
+          line-height: 16.39px;
+        }
+      }
+    }
+
+    @media (max-width: 320px){
+      & .app-text_medium {
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 21.86px;
+      }
+    }
+  }
+}
+
+.depositAmountItem-dialog_large {
+  width: 100%;
+}
+
+.depositAmountItem-dialog_small {
+  width: 19%;
+}
+
+.depositAmountItem-dialog {
+  color: var(--text-color);
+  background: var(--promo-code-bg);
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.depositButton-dialog {
+  width: 100%;
+}
+
+.depositCard-dialog {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--promo-code-bg);
+  border-radius: 9px;
+
+  & > div {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+  }
+
+  svg:last-of-type{
+    transform: rotate(-90deg);
+    margin-left: auto;
+  }
+}
+
+.depositForm-dialog {
+  & > .promo-field {
+    min-width: 160px;
+  }
+}
+
+.deposit-PromoCode {
+  max-width: 663px;
 }
